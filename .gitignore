@@ -1,0 +1,17 @@
+node_modules/
+dist/
+qa/
+.DS_Store
+.env*
+.sites-runtime/
+*.log
+/ben_shamloufard_cv.pdf
+/AmazonBrain.svg
+/AmazonLogo.webp
+/AmazonQBusiness.jpg
+/BAIRImage1.webp
+/BAIRImage2.webp
+/BAIRLogo.webp
+/CodeNinja1.avif
+/CodeNinjas.webp
+/CodeNinjas2.webp

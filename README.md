@@ -1,0 +1,59 @@
+# Ben Shamloufard
+
+A small, fast portfolio for software and machine learning work. Semantic HTML, CSS, and a little JavaScript. No runtime dependencies, remote fonts, analytics, or client framework.
+
+## Develop
+
+Requires Node.js 22 or newer.
+
+```sh
+npm ci
+npm run dev
+```
+
+Open http://localhost:4173. Edit `public/index.html` for content, `public/styles.css` for appearance, and `public/main.js` for interactions. The original résumé is published at `public/resume.pdf`; replace it to update the download. Images are self-hosted in `public/assets`.
+
+## Build
+
+```sh
+npm run build
+```
+
+The build validates local asset references and copies the public site into `dist/`. Only `dist/` is deployed. Original source images and local QA captures are excluded from Git.
+
+## Screenshot and browser review
+
+```sh
+npx playwright install chromium firefox webkit
+npm run build
+npm run qa
+```
+
+QA starts its own server, captures full pages at desktop, phone, and small-phone sizes in both color schemes, and tests Chromium, Firefox, and WebKit. It checks expanded content, image loading, layout overflow, console and network errors, automatic system theme changes, manual theme persistence, reduced motion, pause controls, keyboard navigation, résumé downloads, 200% text enlargement, and reading without JavaScript. Axe checks run in Chromium on the expanded page.
+
+Screenshots and a JSON report are saved under `qa/latest/`. Review the images, adjust the CSS, then rerun. For a live site:
+
+```sh
+npm run qa -- https://YOUR-SITE.onrender.com
+```
+
+The GitHub Actions workflow repeats browser checks on Windows and Linux and uploads screenshots for every run. These engine and viewport checks do not replace testing on physical phones.
+
+## Deploy on Render
+
+Create a **Static Site** connected to this GitHub repository with:
+
+- Branch: `main`
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Auto-deploy: enabled
+
+The production build uses only built-in Node.js modules. No secrets or environment variables are required. Render serves the static output through its CDN.
+
+## Design and content
+
+The default theme follows `prefers-color-scheme` directly in CSS, including live OS theme changes. The footer allows a saved manual override or returning to System. Motion uses small CSS transforms and opacity, pauses when the page is hidden, and respects `prefers-reduced-motion`. All content and expandable rows work without JavaScript.
+
+Content is adapted from Ben's supplied résumé. The supplied Amazon and BAIR images are included; Valkai, Ramp, and Berkeley marks are typographic identifiers. BAIR imagery is supplied project/reference material. No employer endorsement is implied.
+
+Visual inspiration: [Sofia Bodnar's portfolio](https://sofiabodnar.com/). Built as an original implementation.
