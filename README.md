@@ -37,7 +37,7 @@ Screenshots and a JSON report are saved under `qa/latest/`. Review the images, a
 npm run qa -- https://YOUR-SITE.onrender.com
 ```
 
-The GitHub Actions workflow repeats browser checks on Windows and Linux and uploads screenshots for every run. These engine and viewport checks do not replace testing on physical phones.
+The GitHub Actions workflow repeats Chromium and Firefox checks on Windows, and Chromium, Firefox, and WebKit checks on Linux. It uploads screenshots for every run. These engine and viewport checks do not replace testing on physical phones.
 
 ## Deploy on Render
 

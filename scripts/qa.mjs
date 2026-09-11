@@ -56,6 +56,7 @@ try {
         await page.locator('#valkai summary').focus();
         // Check native disclosure behavior and every expanded row at every width.
         for (const id of ['valkai', 'ramp', 'amazon', 'bair', 'navigation', 'games']) {
+          await page.locator(`#${id} summary`).focus();
           await page.locator(`#${id} summary`).click();
           await expect(page.locator(`#${id}`)).toHaveAttribute('open', '');
         }
@@ -87,10 +88,12 @@ try {
     await page.getByLabel('Color theme').selectOption('system');
     await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(21, 22, 23)');
     // Pause, persistence, and system reduced-motion all stop the ambient layer.
+    await page.locator('#motion-toggle').focus();
     await page.getByRole('button', { name: 'Pause background animation' }).click();
     await expect(page.locator('.ambient-network')).toHaveCSS('animation-play-state', 'paused');
     await page.reload();
     await expect(page.locator('#motion-toggle')).toHaveAttribute('aria-pressed', 'true');
+    await page.locator('#motion-toggle').focus();
     await page.getByRole('button', { name: 'Resume background animation' }).click();
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await expect(page.locator('.ambient-network')).toHaveCSS('animation-name', 'none');
@@ -99,6 +102,7 @@ try {
     await page.locator('#amazon summary').focus();
     await page.keyboard.press('Enter');
     await expect(page.locator('#amazon')).toHaveAttribute('open', '');
+    await page.locator('a[href="#valkai"]').focus();
     await page.locator('a[href="#valkai"]').click();
     await expect(page.locator('#valkai')).toHaveAttribute('open', '');
     const pdf = await context.request.get(`${url.replace(/\/$/, '')}/resume.pdf`);
@@ -114,6 +118,7 @@ try {
     const noJs = await activeBrowser.newContext({ javaScriptEnabled: false, colorScheme: 'dark' });
     const noJsPage = await noJs.newPage();
     await noJsPage.goto(url);
+    await noJsPage.locator('#bair summary').focus();
     await noJsPage.locator('#bair summary').click();
     await expect(noJsPage.locator('#bair .entry-content')).toBeVisible();
     await expect(noJsPage.locator('body')).toHaveCSS('background-color', 'rgb(21, 22, 23)');

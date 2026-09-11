@@ -2,7 +2,7 @@
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; --bg: #151617; --text: #babdc1; --strong: #eeeff0; --muted: #8d9298; --line: #2c2e31; --hover: #1e2023; --accent: #94abc7; --diagram: #8292a6; --focus: #9ab8e2; --panel: #202226; } }
 :root[data-theme="dark"] { color-scheme: dark; --bg: #151617; --text: #babdc1; --strong: #eeeff0; --muted: #8d9298; --line: #2c2e31; --hover: #1e2023; --accent: #94abc7; --diagram: #8292a6; --focus: #9ab8e2; --panel: #202226; }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+html { scroll-padding-top: 24px; }
 body { margin: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 1rem; line-height: 1.7; -webkit-font-smoothing: antialiased; }
 button, select { font: inherit; color: inherit; }
 a { color: inherit; text-decoration: none; }
