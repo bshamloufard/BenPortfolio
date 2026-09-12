@@ -64,9 +64,17 @@ Two SVG diagrams frame the content on desktop: a network labeled “inputs → r
 
 `public/ambient.js` interpolates packet positions and trace lengths from precomputed geometry in production. Static drawings and animated signals use separate SVG surfaces, so repainting the signals does not repaint the static geometry. It reuses light state, avoids unchanged opacity writes, and skips geometry updates while a signal is fully transparent. Each drawing pauses when offscreen, the browser tab is hidden, reduced motion is enabled, or the user pauses it. The SVG diagrams and captions remain available without JavaScript. All content and expandable rows also work without JavaScript.
 
+Motion follows every `requestAnimationFrame` callback with elapsed-time positioning, without a 60-fps cap. Native SVG transforms are updated in place instead of parsing new transform strings per frame. This preserves the same speed when the display changes refresh rate. Scrolling stays browser-native, with smooth anchor navigation, touch/pinch gestures, and no blocking wheel/touch handlers. Reduced-motion preferences disable smooth anchor scrolling as well as decorative motion.
+
+There is no production website switch that guarantees ProMotion. Safari and the OS determine the available cadence, including power and thermal limits; see [WebKit's animation frame-rate explanation](https://webkit.github.io/explainers/animation-frame-rate/). The site uses the cadence the browser provides instead of relying on experimental settings.
+
 ## Performance checks
 
 `npm run performance` profiles the built site on a desktop viewport and a phone viewport with 4× CPU throttling. It reports main-thread time, script/style/layout/paint work, frame intervals, initial requests, long tasks, and DOM writes in `qa/performance/report.json`. It measures both playing and paused states. Results are lab comparisons, not physical-device battery measurements.
+
+Use `PERF_HEADED=1` to measure with an actual visible browser on a high-refresh-rate display. `PERF_SCROLL=1` profiles browser-driven smooth scrolling through expanded content while the background keeps moving. `PERF_SECONDS`, `PERF_REPEATS`, and `PERF_NAME` control duration, repetitions, and the report directory. A sample macOS/Linux command is `PERF_HEADED=1 PERF_SCROLL=1 PERF_SECONDS=6 npm run performance`. Headless cadence does not prove hardware refresh-rate support.
+
+`npm run qa:refresh` supplies deterministic 60/120/144/240-Hz and changing-rate clocks in Chromium, Firefox, and WebKit. It verifies equal positions/lighting at equal elapsed times, updates between 60-Hz boundaries, one pending animation loop, pause/resume continuity, and native scrolling settings. This runs in CI alongside screenshot QA and writes `qa/refresh-rate/report.json`; it tests timing correctness, not physical display output.
 
 For an animation regression comparison, save an older `public/` directory and run `node scripts/visual-equivalence.mjs path/to/old/public dist`. This advances both versions through the same 16 sampled frames across desktop/phone and light/dark modes. Signal coordinates, trail offsets, and light opacity must match exactly. Background screenshots allow only small compositor edge-rounding differences. Normal QA separately checks all visible page content and interactions.
 

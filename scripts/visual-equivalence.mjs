@@ -45,7 +45,9 @@ try {
         for (const page of pages) states.push(await page.evaluate(() => ({
           tracks: [...document.querySelectorAll('.signal-track')].map(track => {
             const opacity = track.style.opacity;
-            return { opacity, ...(Number(opacity) ? { transform: track.querySelector('.signal-packet').getAttribute('transform'), offset: track.querySelector('.trace-line').style.strokeDashoffset } : {}) };
+            const transforms = track.querySelector('.signal-packet').transform.baseVal;
+            const matrix = transforms.numberOfItems ? transforms.getItem(0).matrix : null;
+            return { opacity, ...(Number(opacity) ? { x: matrix?.e, y: matrix?.f, offset: track.querySelector('.trace-line').style.strokeDashoffset } : {}) };
           }),
           lamps: [...document.querySelectorAll('.node-lamp')].map(node => node.style.opacity),
         })));

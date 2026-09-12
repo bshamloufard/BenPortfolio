@@ -1,5 +1,5 @@
-// Sample the existing SVG geometry once. Each frame only moves six small
-// signals and their short trails; the diagrams themselves remain still.
+// Follow every browser-provided display frame, with time-based motion at any
+// refresh rate. Only six signals and their trails move; the drawings stay still.
 (() => {
   // The production build injects geometry sampled by scripts/geometry.mjs.
   // Development falls back to the SVG, so editing a route still works live.
@@ -14,11 +14,14 @@
       const buffer = cached ? new DataView(Uint8Array.from(atob(cached), byte => byte.charCodeAt(0)).buffer) : null;
       const length = cached ? 0 : path.getTotalLength();
       const samples = Array.from({ length: 129 }, (_, index) => buffer ? { x: buffer.getFloat32(index * 8, true), y: buffer.getFloat32(index * 8 + 4, true) } : path.getPointAtLength(length * index / 128));
+      const packet = track.querySelector('.signal-packet');
+      const translation = packet.ownerSVGElement.createSVGTransform();
+      packet.transform.baseVal.initialize(translation);
       return {
         element: track, path, glow: track.querySelector('.trace-glow'),
-        packet: track.querySelector('.signal-packet'), samples,
+        translation, samples,
         duration: Number(track.dataset.duration), delay: Number(track.dataset.delay),
-        x: 0, y: 0, opacity: 0, lastOpacity: '', lastTransform: '',
+        x: 0, y: 0, opacity: 0, lastOpacity: '', lastX: NaN, lastY: NaN,
       };
     });
     // Rasterize the static drawing separately from the two small signal layers.
@@ -41,7 +44,7 @@
     return { element, tracks, nodes, visible: false, elapsed: 0 };
   });
 
-  let frame = 0, previous = 0;
+  let frame = 0, previous = null;
   const allowed = () => !document.hidden && !reduced.matches && !forced.matches && root.dataset.motion !== 'paused';
 
   function draw(panel) {
@@ -69,9 +72,11 @@
       // browser to recalculate styles for every signal descendant each frame.
       track.path.style.strokeDashoffset = offset;
       track.glow.style.strokeDashoffset = offset;
-      const transform = `translate(${x.toFixed(2)} ${y.toFixed(2)})`;
-      if (transform !== track.lastTransform) {
-        track.packet.setAttribute('transform', track.lastTransform = transform);
+      const pixelX = Number(x.toFixed(2)), pixelY = Number(y.toFixed(2));
+      if (pixelX !== track.lastX || pixelY !== track.lastY) {
+        // Reuse the native SVG transform instead of allocating and parsing a
+        // transform string for every signal at 120/144 Hz.
+        track.translation.setTranslate(track.lastX = pixelX, track.lastY = pixelY);
       }
     }
     for (const node of panel.nodes) {
@@ -89,7 +94,7 @@
   function tick(now) {
     frame = 0;
     if (!allowed()) return;
-    const delta = previous ? Math.min(now - previous, 64) : 0;
+    const delta = previous === null ? 0 : Math.min(now - previous, 64);
     previous = now;
     for (const panel of panels) {
       if (!panel.visible) continue;
@@ -102,7 +107,7 @@
   function sync() {
     cancelAnimationFrame(frame);
     frame = 0;
-    previous = 0;
+    previous = null;
     for (const panel of panels) panel.element.dataset.motion = allowed() && panel.visible ? 'playing' : 'still';
     if (allowed() && panels.some(panel => panel.visible)) frame = requestAnimationFrame(tick);
   }

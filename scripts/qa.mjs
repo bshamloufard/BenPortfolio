@@ -160,7 +160,8 @@ try {
     const noJsPage = await noJs.newPage();
     await noJsPage.goto(url);
     await noJsPage.locator('#bair summary').focus();
-    await noJsPage.locator('#bair summary').click();
+    // Native keyboard activation also works while focus scrolls into view.
+    await noJsPage.keyboard.press('Enter');
     await expect(noJsPage.locator('#bair .entry-content')).toBeVisible();
     await expect(noJsPage.locator('body')).toHaveCSS('background-color', 'rgb(21, 22, 23)');
     await expect(noJsPage.locator('.ambient-network')).toBeVisible();

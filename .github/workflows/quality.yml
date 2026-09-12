@@ -31,8 +31,13 @@ jobs:
       - run: npm run qa
         env:
           TEST_BROWSERS: ${{ matrix.browsers }}
+      - run: npm run qa:refresh
+        env:
+          TEST_BROWSERS: ${{ matrix.browsers }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: screenshots-${{ matrix.os }}
-          path: qa/latest
+          path: |
+            qa/latest
+            qa/refresh-rate
