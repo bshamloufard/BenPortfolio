@@ -10,6 +10,8 @@
   <meta property="og:title" content="Ben Shamloufard — Software & Machine Learning">
   <meta property="og:description" content="Software, ML infrastructure, and tools for working with AI. EECS at UC Berkeley.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://b3n.ai/">
+  <link rel="canonical" href="https://b3n.ai/">
   <title>Ben Shamloufard — Software & Machine Learning</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <script src="/theme.js"></script>
@@ -68,7 +70,7 @@
 
     <section class="introduction" aria-label="About Ben">
       <p>I build software, ML infrastructure, and tools for working with AI.</p>
-      <p>I’m studying EECS at <a class="inline-link" href="https://eecs.berkeley.edu/"><span class="berkeley-mark" aria-hidden="true">B</span> UC Berkeley</a>. Currently building retrieval and agent infrastructure at <a class="inline-link" href="#valkai"><span class="mini-monogram" aria-hidden="true">v</span> Valkai</a>, after summers at <a class="inline-link" href="#ramp">Ramp</a> and <a class="inline-link" href="#amazon"><img src="/assets/amazon.webp" width="18" height="18" alt=""> Amazon</a>.</p>
+      <p>I’m studying EECS at <a class="inline-link" href="https://eecs.berkeley.edu/"><span class="berkeley-mark" aria-hidden="true">B</span> UC Berkeley</a>. Currently building retrieval and agent infrastructure at <a class="inline-link" href="#valkai"><img src="/assets/valkai.jpg" width="18" height="18" alt=""> Valkai</a>, after summers at <a class="inline-link" href="#ramp"><img src="/assets/ramp.jpg" width="18" height="18" alt=""> Ramp</a> and <a class="inline-link" href="#amazon"><img src="/assets/amazon.webp" width="18" height="18" alt=""> Amazon</a>.</p>
       <p class="personal-note">It started with making games. I’ve been building ever since.</p>
     </section>
 
@@ -76,11 +78,11 @@
       <div class="section-heading"><h2 id="experience-heading">Experience</h2><span class="section-note">A few places I’ve built things</span></div>
       <div class="entries">
         <details class="entry" id="valkai">
-          <summary><span class="company-icon valkai-icon" aria-hidden="true">v</span><span class="entry-title"><span class="entry-name">Valkai <span class="current-label">Now</span></span><span class="entry-role">Member of Technical Staff Intern</span></span><span class="entry-date">Sep – Nov 2026</span><svg class="icon expand-icon"><use href="#plus"/></svg></summary>
+          <summary><span class="company-icon"><img src="/assets/valkai.jpg" width="32" height="32" alt=""></span><span class="entry-title"><span class="entry-name">Valkai <span class="current-label">Now</span></span><span class="entry-role">Member of Technical Staff Intern</span></span><span class="entry-date">Sep – Nov 2026</span><svg class="icon expand-icon"><use href="#plus"/></svg></summary>
           <div class="entry-content"><p>Building the infrastructure between company knowledge and AI agents.</p><ul><li>A Git-like evaluation platform to benchmark search across embedding models and vector databases.</li><li>A context layer connecting internal data sources to retrieval and agent workflows.</li><li>Agent tooling for code edge cases, with a move to isolated AWS Firecracker sandboxes.</li></ul><p class="stack">Retrieval · Agent infrastructure · AWS · Firecracker</p></div>
         </details>
         <details class="entry" id="ramp">
-          <summary><span class="company-icon ramp-icon" aria-hidden="true">r</span><span class="entry-title"><span class="entry-name">Ramp</span><span class="entry-role">Software Engineering Intern</span></span><span class="entry-date">May – Aug 2026</span><svg class="icon expand-icon"><use href="#plus"/></svg></summary>
+          <summary><span class="company-icon"><img src="/assets/ramp.jpg" width="32" height="32" alt=""></span><span class="entry-title"><span class="entry-name">Ramp</span><span class="entry-role">Software Engineering Intern</span></span><span class="entry-date">May – Aug 2026</span><svg class="icon expand-icon"><use href="#plus"/></svg></summary>
           <div class="entry-content"><p>Helping engineers run and understand GPU workloads.</p><ul><li>Migrated open-source models onto a custom GPU cluster provisioned with Terraform.</li><li>Built ECS, EKS, and Ray Serve environments, plus GPU monitoring and allocation systems.</li><li>Built multimodal vector storage with Kafka, Postgres, TurboPuffer, and Snowflake.</li></ul><p class="stack">Python · Terraform · Kubernetes · Ray Serve</p><a class="text-link" href="https://ramp.com/">Ramp <svg class="icon small"><use href="#arrow"/></svg></a></div>
         </details>
         <details class="entry" id="amazon">
@@ -102,7 +104,7 @@
           <div class="entry-content"><p>A CNN-based DQN navigation agent trained to move through walls and obstacles in simulated environments.</p><ul><li>Trained across 1,000+ MuJoCo scenarios, achieving 85% collision avoidance and 90% success.</li><li>Used four NVIDIA 4090 GPUs, reducing avoidance errors by 30% across 1,000 episodes.</li></ul><p class="stack">Python · MuJoCo · PyTorch · OpenAI Gym · SB3</p></div>
         </details>
         <details class="entry project-entry" id="games">
-          <summary><span class="company-icon neutral-icon"><svg class="icon"><use href="#game"/></svg></span><span class="entry-title"><span class="entry-name">Small worlds, a lot of players</span><span class="entry-role">Game development on Roblox</span></span><span class="entry-date">2015 – present</span><svg class="icon expand-icon"><use href="#plus"/></svg></summary>
+          <summary><span class="company-icon"><img src="/assets/roblox.jpg" width="32" height="32" alt=""></span><span class="entry-title"><span class="entry-name">Small worlds, a lot of players</span><span class="entry-role">Game development on Roblox</span></span><span class="entry-date">2015 – present</span><svg class="icon expand-icon"><use href="#plus"/></svg></summary>
           <div class="entry-content"><p>Where it all started. Designing games, directing teams, and learning by shipping things people play.</p><ul><li>Led Roblox game design teams whose games drew more than 2 million visits.</li><li>Created digital art and targeted ads reaching 250,000+ impressions.</li></ul><p class="stack">Lua · Blender · JavaScript · Node.js · React</p></div>
         </details>
       </div>

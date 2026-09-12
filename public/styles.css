@@ -35,7 +35,6 @@ h1 { font: 400 clamp(2rem, 5vw, 2.3rem)/1.2 Georgia, "Times New Roman", serif; l
 .inline-link:hover { border-color: var(--accent); }
 .inline-link img { vertical-align: -3px; border-radius: 4px; margin-right: 2px; }
 .berkeley-mark { display: inline-flex; justify-content: center; align-items: center; background: #123761; color: #edcd7a; font: bold 13px Georgia, serif; width: 17px; height: 19px; border-radius: 3px 3px 7px 7px; margin-right: 3px; }
-.mini-monogram { display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; border-radius: 5px; background: #39353b; color: #ece6f1; font: italic 17px Georgia,serif; margin-right: 3px; }
 .work-section { margin-top: 39px; }
 .section-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; margin-bottom: 15px; }
 h2 { font-size: 0.875rem; font-weight: 550; color: var(--strong); margin: 0; }
@@ -48,8 +47,6 @@ summary::before { content: ""; position: absolute; inset: 5px -10px; border-radi
 summary:hover::before, summary:focus-visible::before { opacity: 1; }
 .company-icon { width: 32px; height: 32px; flex: 0 0 32px; display: flex; align-items: center; justify-content: center; border-radius: 9px; overflow: hidden; }
 .company-icon img { width: 32px; height: 32px; object-fit: cover; }
-.valkai-icon { background: #3b3543; color: #f4edf7; font: italic 29px Georgia,serif; padding-bottom: 4px; }
-.ramp-icon { background: #e6edb2; color: #292e24; font: 600 28px Georgia,serif; }
 .bair-icon { background: white; }
 .neutral-icon { background: var(--panel); color: var(--accent); }
 .entry-title { display: flex; flex-direction: column; min-width: 0; flex: 1; }

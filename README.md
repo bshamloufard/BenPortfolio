@@ -2,6 +2,8 @@
 
 A small, fast portfolio for software and machine learning work. Semantic HTML, CSS, and a little JavaScript. No runtime dependencies, remote fonts, analytics, or client framework.
 
+Primary domain: [b3n.ai](https://b3n.ai/). Render origin: [ben-shamloufard.onrender.com](https://ben-shamloufard.onrender.com/).
+
 ## Develop
 
 Requires Node.js 22 or newer.
@@ -54,6 +56,6 @@ The production build uses only built-in Node.js modules. No secrets or environme
 
 The default theme follows `prefers-color-scheme` directly in CSS, including live OS theme changes. The footer allows a saved manual override or returning to System. Motion uses small CSS transforms and opacity, pauses when the page is hidden, and respects `prefers-reduced-motion`. All content and expandable rows work without JavaScript.
 
-Content is adapted from Ben's supplied résumé. The supplied Amazon and BAIR images are included; Valkai, Ramp, and Berkeley marks are typographic identifiers. BAIR imagery is supplied project/reference material. No employer endorsement is implied.
+Content is adapted from Ben's supplied résumé. The supplied Amazon, BAIR, Valkai, Ramp, and Roblox images are included; Berkeley uses a typographic identifier. BAIR imagery is supplied project/reference material. No employer endorsement is implied.
 
 Visual inspiration: [Sofia Bodnar's portfolio](https://sofiabodnar.com/). Built as an original implementation.
