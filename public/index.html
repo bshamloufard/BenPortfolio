@@ -17,6 +17,7 @@
   <script src="/theme.js"></script>
   <link rel="stylesheet" href="/styles.css">
   <script src="/main.js" defer></script>
+  <script src="/sculpture.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -35,26 +36,6 @@
     <symbol id="play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z"/></symbol>
   </svg>
 
-  <div class="ambient" aria-hidden="true">
-    <div class="ambient-grid"></div>
-    <svg class="ambient-network" viewBox="0 0 360 420" fill="none">
-      <g class="network-lines" stroke="currentColor" stroke-width=".8">
-        <path d="M40 140 130 70 230 115 315 200 230 285 130 340 40 260Z M40 140 130 200 40 260M130 70v270M230 115v170M315 200H40M130 70l100 215M130 340l100-225M40 140l190 145M40 260l190-145M130 70l185 130-185 140"/>
-        <circle cx="40" cy="140" r="5"/><circle cx="40" cy="200" r="5"/><circle cx="40" cy="260" r="5"/><circle cx="130" cy="70" r="5"/><circle cx="130" cy="200" r="5"/><circle cx="130" cy="340" r="5"/><circle cx="230" cy="115" r="5"/><circle cx="230" cy="200" r="5"/><circle cx="230" cy="285" r="5"/><circle cx="315" cy="200" r="5"/>
-      </g>
-      <g class="signal" fill="currentColor"><circle cx="130" cy="200" r="3"/><circle cx="230" cy="115" r="3"/><circle cx="315" cy="200" r="3"/></g>
-      <text x="113" y="391">inputs → representations</text>
-    </svg>
-    <svg class="ambient-surface" viewBox="0 0 420 420" fill="none">
-      <g class="surface-lines" stroke="currentColor" stroke-width=".8">
-        <path d="M20 240Q120 75 205 225T400 190M20 253Q120 100 205 239T400 203M20 266Q120 125 205 253T400 216M20 279Q120 150 205 267T400 229M20 292Q120 175 205 281T400 242M20 305Q120 200 205 295T400 255M20 318Q120 225 205 309T400 268M20 331Q120 250 205 323T400 281M20 344Q120 275 205 337T400 294"/>
-        <path d="M20 240v104M45 208v109M70 183v115M95 172v110M120 177v107M145 185v112M170 199v113M195 217v112M220 245v105M245 266v104M270 278v104M295 277v105M320 269v104M345 250v104M370 225v105M395 196v104"/>
-      </g>
-      <circle class="surface-point" cx="120" cy="177" r="4" fill="currentColor"/>
-      <text x="227" y="402">a little room to explore.</text>
-    </svg>
-  </div>
-
   <main id="main" class="page">
     <header class="intro-header">
       <p class="eyebrow">SOFTWARE & MACHINE LEARNING</p>
@@ -66,6 +47,10 @@
         <span class="social-divider"></span>
         <a href="/resume.pdf" class="resume-link" target="_blank" rel="noopener">Résumé <svg class="icon small"><use href="#arrow"/></svg></a>
       </nav>
+      <div class="sculpture" aria-hidden="true">
+        <svg class="sculpture-fallback" viewBox="0 0 500 500" fill="none"><use href="/assets/filament.svg#form"/></svg>
+        <canvas class="sculpture-canvas"></canvas>
+      </div>
     </header>
 
     <section class="introduction" aria-label="About Ben">

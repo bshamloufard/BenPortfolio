@@ -38,6 +38,12 @@ try {
         const response = await page.goto(url, { waitUntil: 'networkidle' });
         expect(response.status()).toBe(200);
         await expect(page.locator('h1')).toHaveText('Ben Shamloufard.');
+        await expect(page.locator('h1')).toBeVisible();
+        const screenshot = `${engine}-${label}-${colorScheme}.png`;
+        // Capture a completed paint before measuring inherited theme values.
+        // Headless WebKit can report unresolved custom properties before this.
+        await page.screenshot({ path: resolve(output, screenshot), fullPage: true, animations: 'disabled' });
+        await expect(page.locator('body')).toHaveCSS('background-color', colorScheme === 'dark' ? 'rgb(21, 22, 23)' : 'rgb(250, 250, 250)');
         const metrics = await page.evaluate(() => ({
           overflow: document.documentElement.scrollWidth > innerWidth,
           background: getComputedStyle(document.body).backgroundColor,
@@ -48,8 +54,6 @@ try {
         expect(metrics.overflow).toBe(false);
         expect(metrics.background).toBe(colorScheme === 'dark' ? 'rgb(21, 22, 23)' : 'rgb(250, 250, 250)');
         expect(metrics.brokenImages).toEqual([]);
-        const screenshot = `${engine}-${label}-${colorScheme}.png`;
-        await page.screenshot({ path: resolve(output, screenshot), fullPage: true, animations: 'disabled' });
         report.captures.push({ screenshot, engine, label, colorScheme, metrics });
 
         // Focus first so headless Firefox has an active input target after capture.
@@ -77,7 +81,24 @@ try {
 
     const context = await activeBrowser.newContext({ viewport: { width: 390, height: 844 }, colorScheme: 'light' });
     const page = await context.newPage();
+    // Observe real draw calls rather than assuming a moving CSS class means animation.
+    await page.addInitScript(() => {
+      window.sculptureDraws = 0;
+      const draw = WebGLRenderingContext.prototype.drawArrays;
+      WebGLRenderingContext.prototype.drawArrays = function (...args) {
+        window.sculptureDraws++;
+        return draw.apply(this, args);
+      };
+    });
     await page.goto(url);
+    await page.waitForTimeout(150);
+    const hasWebGL = await page.locator('.sculpture').getAttribute('data-renderer') === 'webgl';
+    if (hasWebGL) {
+      await expect(page.locator('.sculpture')).toHaveAttribute('data-motion', 'playing');
+      const initial = await page.locator('.sculpture').screenshot();
+      await page.waitForTimeout(200);
+      expect((await page.locator('.sculpture').screenshot()).equals(initial)).toBe(false);
+    }
     // Theme follows a live system change, manual choice persists, System restores it.
     await page.emulateMedia({ colorScheme: 'dark' });
     await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(21, 22, 23)');
@@ -90,14 +111,48 @@ try {
     // Pause, persistence, and system reduced-motion all stop the ambient layer.
     await page.locator('#motion-toggle').focus();
     await page.getByRole('button', { name: 'Pause background animation' }).click();
-    await expect(page.locator('.ambient-network')).toHaveCSS('animation-play-state', 'paused');
+    await expect(page.locator('.sculpture')).toHaveAttribute('data-motion', 'still');
+    await page.locator('.sculpture').scrollIntoViewIfNeeded();
+    const pausedFrame = await page.locator('.sculpture').screenshot();
+    const pausedDraws = await page.evaluate(() => window.sculptureDraws);
+    await page.waitForTimeout(200);
+    expect(await page.evaluate(() => window.sculptureDraws)).toBe(pausedDraws);
+    expect((await page.locator('.sculpture').screenshot()).equals(pausedFrame)).toBe(true);
     await page.reload();
     await expect(page.locator('#motion-toggle')).toHaveAttribute('aria-pressed', 'true');
     await page.locator('#motion-toggle').focus();
     await page.getByRole('button', { name: 'Resume background animation' }).click();
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    await expect(page.locator('.ambient-network')).toHaveCSS('animation-name', 'none');
+    await expect(page.locator('.sculpture')).toHaveAttribute('data-motion', 'still');
     await expect(page.locator('#motion-toggle')).toBeDisabled();
+    await page.locator('.sculpture').scrollIntoViewIfNeeded();
+    const reducedDraws = await page.evaluate(() => window.sculptureDraws);
+    await page.waitForTimeout(200);
+    expect(await page.evaluate(() => window.sculptureDraws)).toBe(reducedDraws);
+    if (hasWebGL && engine === 'chromium') {
+      // Losing the GPU must leave the portfolio intact, and recovery must restart art.
+      await page.evaluate(() => {
+        const gl = document.querySelector('canvas').getContext('webgl');
+        window.contextRecovery = gl.getExtension('WEBGL_lose_context');
+        window.contextRecovery?.loseContext();
+      });
+      if (await page.evaluate(() => Boolean(window.contextRecovery))) {
+        await expect(page.locator('.sculpture')).toHaveAttribute('data-renderer', 'fallback');
+        await expect(page.locator('.sculpture-fallback')).toHaveCSS('opacity', '0.55');
+        await page.evaluate(() => window.contextRecovery.restoreContext());
+        await expect(page.locator('.sculpture')).toHaveAttribute('data-renderer', 'webgl');
+      }
+      await page.emulateMedia({ reducedMotion: 'no-preference' });
+      await expect(page.locator('.sculpture')).toHaveAttribute('data-motion', 'playing');
+      await page.locator('footer').scrollIntoViewIfNeeded();
+      await expect(page.locator('.sculpture')).toHaveAttribute('data-motion', 'still');
+      const offscreenDraws = await page.evaluate(() => window.sculptureDraws);
+      await page.waitForTimeout(200);
+      expect(await page.evaluate(() => window.sculptureDraws)).toBe(offscreenDraws);
+      await page.locator('.sculpture').scrollIntoViewIfNeeded();
+      await expect(page.locator('.sculpture')).toHaveAttribute('data-motion', 'playing');
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+    }
     // Keyboard and in-page links open the corresponding content.
     await page.locator('#amazon summary').focus();
     await page.keyboard.press('Enter');
@@ -122,8 +177,9 @@ try {
     await noJsPage.locator('#bair summary').click();
     await expect(noJsPage.locator('#bair .entry-content')).toBeVisible();
     await expect(noJsPage.locator('body')).toHaveCSS('background-color', 'rgb(21, 22, 23)');
+    await expect(noJsPage.locator('.sculpture-fallback')).toHaveCSS('opacity', '0.55');
     await noJs.close();
-    report.checks.push({ engine, check: 'themes, motion, keyboard, resume, links, text enlargement, no JavaScript', passed: true });
+    report.checks.push({ engine, check: 'themes, visible animation, pause, reduced motion, GPU recovery, offscreen suspension, keyboard, resume, links, text enlargement, no JavaScript', renderer: hasWebGL ? 'webgl' : 'static fallback', passed: true });
     await activeBrowser.close();
     activeBrowser = undefined;
     console.log(`${engine}: passed`);

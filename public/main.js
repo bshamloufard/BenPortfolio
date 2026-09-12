@@ -43,8 +43,3 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   });
 });
 openLinkedEntry();
-
-// Suspend decorative animation while this page is in the background.
-document.addEventListener('visibilitychange', () => {
-  document.querySelector('.ambient').style.display = document.hidden ? 'none' : '';
-});
