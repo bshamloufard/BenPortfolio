@@ -13,7 +13,7 @@ npm ci
 npm run dev
 ```
 
-Open http://localhost:4173. Edit `public/index.html` for content, `public/styles.css` for appearance, and `public/main.js` for interactions. `public/sculpture.js` contains the custom WebGL filament sculpture. The original résumé is published at `public/resume.pdf`; replace it to update the download. Images are self-hosted in `public/assets`.
+Open http://localhost:4173. Edit `public/index.html` for content, `public/styles.css` for appearance, and `public/main.js` for interactions. `public/ambient.js` animates signals along the network and surface drawings. The original résumé is published at `public/resume.pdf`; replace it to update the download. Images are self-hosted in `public/assets`.
 
 ## Build
 
@@ -31,7 +31,7 @@ npm run build
 npm run qa
 ```
 
-QA starts its own server, captures full pages at desktop, phone, and small-phone sizes in both color schemes, and tests Chromium, Firefox, and WebKit. It checks expanded content, image loading, layout overflow, console and network errors, automatic system theme changes, manual theme persistence, reduced motion, actual animation frame changes, frozen frames when paused, GPU loss and recovery, offscreen rendering suspension, keyboard navigation, résumé downloads, 200% text enlargement, and reading without JavaScript. Axe checks run in Chromium on the expanded page.
+QA starts its own server, captures full pages at desktop, phone, and small-phone sizes in both color schemes, and tests Chromium, Firefox, and WebKit. It checks expanded content, image loading, layout overflow, console and network errors, automatic system theme changes, manual theme persistence, reduced motion, actual animation frame changes, frozen frames when paused, high contrast, keyboard navigation, résumé downloads, 200% text enlargement, and reading without JavaScript. Axe checks run in Chromium on the expanded page.
 
 Screenshots and a JSON report are saved under `qa/latest/`. Review the images, adjust the CSS, then rerun. For a live site:
 
@@ -54,7 +54,11 @@ The production build uses only built-in Node.js modules. No secrets or environme
 
 ## Design and content
 
-The default theme follows `prefers-color-scheme` directly in CSS, including live OS theme changes. The footer allows a saved manual override or returning to System. The signature animation is an analytic trefoil woven from 36 closed filaments at its current display size. A custom WebGL shader projects its geometry, renders antialiased ribbons, and moves light across the strands in a seamless 96-second cycle. A gently damped pointer response changes the viewing angle. It uses one draw call, no textures or graphics libraries, and a capped pixel ratio. Initialization follows the first page paint. It freezes for reduced motion or the pause control and stops drawing while hidden or offscreen. A static SVG preserves the artwork without JavaScript, without WebGL, or during GPU context loss; the renderer recovers when the GPU returns. The sculpture is centered beneath the name and social links on every screen, with a larger phone presentation that fits entirely within the first viewport. All content and expandable rows work without JavaScript.
+The default theme follows `prefers-color-scheme` directly in CSS, including live OS theme changes. The footer allows a saved manual override or returning to System.
+
+Two SVG diagrams frame the content on desktop: a network labeled “inputs → representations” and a curved surface labeled “a little room to explore.” A faint grid fades into the background, and a horizontal gradient keeps the reading column clear. Both diagrams sit partly beyond the page edges. On phones they remain small, cropped corner details with lower opacity; their captions are hidden. Small signals follow the existing lines, leaving short illuminated trails; network nodes brighten as a signal passes.
+
+`public/ambient.js` samples the six paths once, then interpolates packet positions and trace lengths. Each drawing pauses when offscreen, the browser tab is hidden, reduced motion is enabled, or the user pauses it. The SVG diagrams and captions remain available without JavaScript. All content and expandable rows also work without JavaScript.
 
 Content is adapted from Ben's supplied résumé. The supplied Amazon, BAIR, Valkai, Ramp, and Roblox images are included; Berkeley uses a typographic identifier. BAIR imagery is supplied project/reference material. No employer endorsement is implied.
 

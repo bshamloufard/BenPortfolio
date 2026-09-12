@@ -17,7 +17,7 @@
   <script src="/theme.js"></script>
   <link rel="stylesheet" href="/styles.css">
   <script src="/main.js" defer></script>
-  <script src="/sculpture.js" defer></script>
+  <script src="/ambient.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -36,6 +36,54 @@
     <symbol id="play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z"/></symbol>
   </svg>
 
+  <div class="ambient-stage" aria-hidden="true">
+    <div class="ambient-grid"></div>
+    <figure class="ambient-panel network-panel"><svg class="ambient-network" viewBox="15 35 325 335" fill="none">
+        <g class="network-lines" stroke="currentColor" stroke-width=".8">
+          <path d="M40 140 130 70 230 115 315 200 230 285 130 340 40 260Z M40 140 130 200 40 260M130 70v270M230 115v170M315 200H40M130 70l100 215M130 340l100-225M40 140l190 145M40 260l190-145M130 70l185 130-185 140"/>
+          <circle cx="40" cy="140" r="5"/><circle cx="40" cy="200" r="5"/><circle cx="40" cy="260" r="5"/><circle cx="130" cy="70" r="5"/><circle cx="130" cy="200" r="5"/><circle cx="130" cy="340" r="5"/><circle cx="230" cy="115" r="5"/><circle cx="230" cy="200" r="5"/><circle cx="230" cy="285" r="5"/><circle cx="315" cy="200" r="5"/>
+        </g>
+        <g class="signal-layer">
+          <g class="signal-track" data-delay="0" data-duration="11500">
+            <path class="trace-glow" d="M40 140 130 70 230 115 315 200" pathLength="1"/><path class="trace-line" d="M40 140 130 70 230 115 315 200" pathLength="1"/>
+            <g class="signal-packet"><circle class="packet-halo" r="6"/><circle class="packet-core" r="2"/></g>
+          </g>
+          <g class="signal-track" data-delay="-4200" data-duration="13000">
+            <path class="trace-glow" d="M40 260 130 200 230 200 315 200" pathLength="1"/><path class="trace-line" d="M40 260 130 200 230 200 315 200" pathLength="1"/>
+            <g class="signal-packet"><circle class="packet-halo" r="6"/><circle class="packet-core" r="2"/></g>
+          </g>
+          <g class="signal-track" data-delay="-7800" data-duration="14500">
+            <path class="trace-glow" d="M40 140 230 285 315 200" pathLength="1"/><path class="trace-line" d="M40 140 230 285 315 200" pathLength="1"/>
+            <g class="signal-packet"><circle class="packet-halo" r="6"/><circle class="packet-core" r="2"/></g>
+          </g>
+        </g>
+      </svg>
+      <figcaption>inputs → representations</figcaption>
+    </figure>
+    <figure class="ambient-panel surface-panel"><svg class="ambient-surface" viewBox="0 105 420 290" fill="none">
+        <g class="surface-lines" stroke="currentColor" stroke-width=".8">
+          <path d="M20 240Q120 75 205 225T400 190M20 253Q120 100 205 239T400 203M20 266Q120 125 205 253T400 216M20 279Q120 150 205 267T400 229M20 292Q120 175 205 281T400 242M20 305Q120 200 205 295T400 255M20 318Q120 225 205 309T400 268M20 331Q120 250 205 323T400 281M20 344Q120 275 205 337T400 294"/>
+          <path d="M20.00 240.00L20.00 344.00M44.77 203.67L44.77 328.80M69.06 177.19L69.06 317.69M92.89 160.55L92.89 310.67M116.25 153.75L116.25 307.75M139.14 156.80L139.14 308.92M161.56 169.69L161.56 314.19M183.52 192.42L183.52 323.55M205.00 225.00L205.00 337.00M226.64 257.27L226.64 349.89M249.06 279.06L249.06 357.56M272.27 290.39L272.27 360.02M296.25 291.25L296.25 357.25M321.02 281.64L321.02 349.27M346.56 261.56L346.56 336.06M372.89 231.02L372.89 317.64M400.00 190.00L400.00 294.00"/>
+        </g>
+        <g class="signal-layer">
+          <g class="signal-track" data-delay="-1300" data-duration="14000">
+            <path class="trace-glow" d="M20 240Q120 75 205 225T400 190" pathLength="1"/><path class="trace-line" d="M20 240Q120 75 205 225T400 190" pathLength="1"/>
+            <g class="signal-packet"><circle class="packet-halo" r="6"/><circle class="packet-core" r="2"/></g>
+          </g>
+          <g class="signal-track" data-delay="-6300" data-duration="15500">
+            <path class="trace-glow" d="M20 279Q120 150 205 267T400 229" pathLength="1"/><path class="trace-line" d="M20 279Q120 150 205 267T400 229" pathLength="1"/>
+            <g class="signal-packet"><circle class="packet-halo" r="6"/><circle class="packet-core" r="2"/></g>
+          </g>
+          <g class="signal-track" data-delay="-10200" data-duration="17000">
+            <path class="trace-glow" d="M20 318Q120 225 205 309T400 268" pathLength="1"/><path class="trace-line" d="M20 318Q120 225 205 309T400 268" pathLength="1"/>
+            <g class="signal-packet"><circle class="packet-halo" r="6"/><circle class="packet-core" r="2"/></g>
+          </g>
+        </g>
+      </svg>
+      <figcaption>a little room to explore.</figcaption>
+    </figure>
+  </div>
+
   <main id="main" class="page">
     <header class="intro-header">
       <p class="eyebrow">SOFTWARE & MACHINE LEARNING</p>
@@ -47,10 +95,6 @@
         <span class="social-divider"></span>
         <a href="/resume.pdf" class="resume-link" target="_blank" rel="noopener">Résumé <svg class="icon small"><use href="#arrow"/></svg></a>
       </nav>
-      <div class="sculpture" aria-hidden="true">
-        <svg class="sculpture-fallback" viewBox="0 0 500 500" fill="none"><use href="/assets/filament.svg#form"/></svg>
-        <canvas class="sculpture-canvas"></canvas>
-      </div>
     </header>
 
     <section class="introduction" aria-label="About Ben">
