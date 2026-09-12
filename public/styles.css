@@ -15,8 +15,8 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 .skip-link { position: fixed; z-index: 5; top: 12px; left: 12px; transform: translateY(-150%); padding: 8px 16px; background: var(--bg); border: 1px solid var(--line); }
 .skip-link:focus { transform: translateY(0); }
-.page { width: min(100% - 48px, 620px); margin: 0 auto; padding: 86px 0 26px; position: relative; z-index: 1; }
-.intro-header { text-align: center; margin-bottom: 54px; }
+.page { width: min(100% - 48px, 620px); margin: 0 auto; padding: 52px 0 26px; position: relative; z-index: 1; }
+.intro-header { text-align: center; margin-bottom: 34px; }
 .eyebrow { font-size: 0.75rem; letter-spacing: .18em; color: var(--muted); margin: 0 0 12px; font-weight: 500; }
 h1 { font: 400 clamp(2rem, 5vw, 2.3rem)/1.2 Georgia, "Times New Roman", serif; letter-spacing: -.045em; overflow-wrap: anywhere; color: var(--strong); margin: 0; }
 .name-period { color: var(--accent); }
@@ -79,7 +79,7 @@ footer { display: flex; justify-content: space-between; align-items: center; mar
 .theme-control select { appearance: none; border: 0; background: transparent; padding: 10px 0; font-size: 0.75rem; width: 49px; cursor: pointer; }
 .motion-toggle { display: flex; align-items: center; justify-content: center; padding: 0; width: 28px; height: 36px; background: transparent; border: 0; cursor: pointer; color: var(--muted); }
 .motion-toggle:hover { color: var(--strong); }
-.sculpture { --thread-opacity: .78; position: fixed; width: clamp(280px, calc((100vw - 760px) / 2), 510px); aspect-ratio: 1; right: 18px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #6f8196; overflow: hidden; }
+.sculpture { --thread-opacity: .78; position: relative; width: 248px; max-width: 100%; aspect-ratio: 1; margin: 8px auto -24px; pointer-events: none; color: #6f8196; overflow: hidden; }
 .sculpture-canvas, .sculpture-fallback { position: absolute; inset: 0; width: 100%; height: 100%; }
 .sculpture-canvas { opacity: 0; }
 .sculpture-fallback { opacity: .55; }
@@ -87,15 +87,14 @@ footer { display: flex; justify-content: space-between; align-items: center; mar
 .sculpture[data-renderer="webgl"] .sculpture-fallback { opacity: 0; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .sculpture { color: #a2b2c5; --thread-opacity: .68; } }
 :root[data-theme="dark"] .sculpture { color: #a2b2c5; --thread-opacity: .68; }
-@media (max-width: 1180px) { .sculpture { position: relative; width: 200px; top: auto; right: auto; transform: none; margin: 12px auto -18px; } }
 @keyframes content-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 @media (max-width: 650px) {
-  .page { width: min(100% - 40px, 500px); padding-top: 57px; }
-  .intro-header { margin-bottom: 42px; }
+  .page { width: min(100% - 40px, 500px); padding-top: 36px; }
+  .intro-header { margin-bottom: 28px; }
   .introduction { margin-bottom: 35px; }
   .introduction p { margin-bottom: 14px; }
   .eyebrow { font-size: 0.75rem; letter-spacing: .14em; }
-  .sculpture { width: 176px; margin-top: 8px; margin-bottom: -16px; }
+  .sculpture { width: min(68vw, 236px); margin-top: 4px; }
   .section-note { font-size: 0.75rem; }
   .section-heading { gap: 12px; }
   summary { display: grid; grid-template-columns: 28px minmax(0,1fr) 13px; column-gap: 12px; row-gap: 3px; padding: 17px 0; }
