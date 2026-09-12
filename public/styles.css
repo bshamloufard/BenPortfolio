@@ -85,6 +85,7 @@ footer { display: flex; justify-content: space-between; align-items: center; mar
 .network-panel { width: clamp(230px, 27vw, 390px); left: -75px; top: 28%; }
 .surface-panel { width: clamp(260px, 31vw, 440px); right: -78px; top: 45%; }
 .ambient-panel svg { display: block; width: 100%; height: auto; aspect-ratio: 1; overflow: visible; }
+.ambient-panel .ambient-motion { position: absolute; top: 0; left: 0; transform: translateZ(0); }
 .ambient-panel figcaption { margin-top: 8px; text-align: center; font: .625rem/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; color: inherit; opacity: .7; }
 .network-lines, .surface-lines { opacity: .78; }
 .network-lines circle { fill: var(--bg); }

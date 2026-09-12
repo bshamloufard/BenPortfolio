@@ -21,7 +21,9 @@ Open http://localhost:4173. Edit `public/index.html` for content, `public/styles
 npm run build
 ```
 
-The build validates local asset references and copies the public site into `dist/`. Only `dist/` is deployed. Original source images and local QA captures are excluded from Git.
+The build validates local asset references, minifies CSS and JavaScript with esbuild, combines the two deferred scripts, and inlines the tiny theme preference script to avoid a blocking request. It emits content-hashed files in `dist/static/`. Only `dist/` is deployed. esbuild is a build-time dependency; no library is downloaded or run by visitors.
+
+Animation geometry is sampled ahead of time and stored in `scripts/ambient-geometry.json`. The build packs the exact float32 coordinates into the script so visitors do not need to measure hundreds of SVG curve points at startup. If you edit a signal route in the HTML, run `npm run geometry` with Chromium installed, then commit the updated JSON. The build rejects routes without matching geometry. `npm run dev` can still sample changed SVG paths directly.
 
 ## Screenshot and browser review
 
@@ -46,11 +48,13 @@ The GitHub Actions workflow repeats Chromium and Firefox checks on Windows, and 
 Create a **Static Site** connected to this GitHub repository with:
 
 - Branch: `main`
-- Build command: `npm run build`
+- Build command: `npm ci --include=dev && npm run build`
 - Publish directory: `dist`
 - Auto-deploy: enabled
 
-The production build uses only built-in Node.js modules. No secrets or environment variables are required. Render serves the static output through its CDN.
+No secrets or environment variables are required. Render serves the static output through its CDN. The production Headers configuration is `/static/*` → `Cache-Control: public, max-age=31536000, immutable`. Only content-hashed files use this long cache lifetime; HTML and the stable résumé URL retain Render's normal revalidation behavior. A changed file receives a new URL automatically.
+
+Render's GitHub installation currently lacks access to this repository, so pushes have not triggered deploys automatically despite that setting being enabled. Until its repository access is updated, check for a new deploy after pushing and trigger one manually if absent.
 
 ## Design and content
 
@@ -58,7 +62,15 @@ The default theme follows `prefers-color-scheme` directly in CSS, including live
 
 Two SVG diagrams frame the content on desktop: a network labeled “inputs → representations” and a curved surface labeled “a little room to explore.” A faint grid fades into the background, and a horizontal gradient keeps the reading column clear. Both diagrams sit partly beyond the page edges. On phones they remain small, cropped corner details with lower opacity; their captions are hidden. Small signals follow the existing lines, leaving short illuminated trails; network nodes brighten as a signal passes.
 
-`public/ambient.js` samples the six paths once, then interpolates packet positions and trace lengths. Each drawing pauses when offscreen, the browser tab is hidden, reduced motion is enabled, or the user pauses it. The SVG diagrams and captions remain available without JavaScript. All content and expandable rows also work without JavaScript.
+`public/ambient.js` interpolates packet positions and trace lengths from precomputed geometry in production. Static drawings and animated signals use separate SVG surfaces, so repainting the signals does not repaint the static geometry. It reuses light state, avoids unchanged opacity writes, and skips geometry updates while a signal is fully transparent. Each drawing pauses when offscreen, the browser tab is hidden, reduced motion is enabled, or the user pauses it. The SVG diagrams and captions remain available without JavaScript. All content and expandable rows also work without JavaScript.
+
+## Performance checks
+
+`npm run performance` profiles the built site on a desktop viewport and a phone viewport with 4× CPU throttling. It reports main-thread time, script/style/layout/paint work, frame intervals, initial requests, long tasks, and DOM writes in `qa/performance/report.json`. It measures both playing and paused states. Results are lab comparisons, not physical-device battery measurements.
+
+For an animation regression comparison, save an older `public/` directory and run `node scripts/visual-equivalence.mjs path/to/old/public dist`. This advances both versions through the same 16 sampled frames across desktop/phone and light/dark modes. Signal coordinates, trail offsets, and light opacity must match exactly. Background screenshots allow only small compositor edge-rounding differences. Normal QA separately checks all visible page content and interactions.
+
+See [PERFORMANCE.md](PERFORMANCE.md) for the measured optimization results and tradeoffs.
 
 Content is adapted from Ben's supplied résumé. The supplied Amazon, BAIR, Valkai, Ramp, and Roblox images are included; Berkeley uses a typographic identifier. BAIR imagery is supplied project/reference material. No employer endorsement is implied.
 

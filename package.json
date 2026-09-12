@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "node scripts/serve.mjs",
     "build": "node scripts/build.mjs",
+    "geometry": "node scripts/geometry.mjs",
+    "performance": "node scripts/performance.mjs",
     "preview": "node scripts/serve.mjs dist",
     "qa": "node scripts/qa.mjs"
   },
@@ -14,6 +16,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
-    "@playwright/test": "^1.63.0"
+    "@playwright/test": "^1.63.0",
+    "esbuild": "0.28.2"
   }
 }

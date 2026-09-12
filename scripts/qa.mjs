@@ -30,6 +30,11 @@ try {
       for (const [label, width, height] of [['desktop', 1440, 1000], ['phone', 390, 844], ['small-phone', 320, 740]]) {
         const context = await activeBrowser.newContext({ viewport: { width, height }, colorScheme, reducedMotion: 'reduce', hasTouch: label !== 'desktop' });
         const page = await context.newPage();
+        await page.addInitScript(() => {
+          window.geometryCalls = 0;
+          const sample = SVGGeometryElement.prototype.getPointAtLength;
+          SVGGeometryElement.prototype.getPointAtLength = function (...args) { window.geometryCalls++; return sample.apply(this, args); };
+        });
         const errors = [];
         page.on('pageerror', error => errors.push(error.message));
         page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
@@ -39,6 +44,8 @@ try {
         expect(response.status()).toBe(200);
         await expect(page.locator('h1')).toHaveText('Ben Shamloufard.');
         await expect(page.locator('h1')).toBeVisible();
+        // Production loads precomputed paths instead of sampling on the device.
+        expect(await page.evaluate(() => window.geometryCalls)).toBe(0);
         const screenshot = `${engine}-${label}-${colorScheme}.png`;
         // Capture a completed paint before measuring inherited theme values.
         // Headless WebKit can report unresolved custom properties before this.
