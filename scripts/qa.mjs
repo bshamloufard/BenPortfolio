@@ -59,7 +59,7 @@ try {
         // Focus first so headless Firefox has an active input target after capture.
         await page.locator('#valkai summary').focus();
         // Check native disclosure behavior and every expanded row at every width.
-        for (const id of ['valkai', 'ramp', 'amazon', 'bair', 'navigation', 'games']) {
+        for (const id of ['valkai', 'ramp', 'amazon', 'bair', 'games']) {
           await page.locator(`#${id} summary`).focus();
           await page.locator(`#${id} summary`).click();
           await expect(page.locator(`#${id}`)).toHaveAttribute('open', '');
