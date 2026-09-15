@@ -5,7 +5,7 @@ import { transform } from 'esbuild';
 
 const root = resolve(import.meta.dirname, '..');
 let html = (await readFile(resolve(root, 'public/index.html'), 'utf8')).replace(/\r\n?/g, '\n');
-for (const [, path] of html.matchAll(/(?:src|href)="(\/[^"#]*)"/g)) {
+for (const [, path] of html.matchAll(/(?:src|href|content)="(?:https:\/\/b3n\.ai)?(\/[^"#]*)"/g)) {
   await stat(resolve(root, `public${path}`));
 }
 await rm(resolve(root, 'dist'), { recursive: true, force: true });
@@ -50,7 +50,7 @@ await writeFile(resolve(root, 'dist/index.html'), html);
 // Keep stable public URLs usable, but do not ship redundant JavaScript copies.
 for (const file of ['main.js', 'ambient.js', 'theme.js', 'styles.css']) await rm(resolve(root, `dist/${file}`));
 // Validate the output as well as the source, including removed bundle inputs.
-for (const [, path] of html.matchAll(/(?:src|href)="(\/[^"#]*)"/g)) {
+for (const [, path] of html.matchAll(/(?:src|href|content)="(?:https:\/\/b3n\.ai)?(\/[^"#]*)"/g)) {
   await stat(resolve(root, `dist${path}`));
 }
 console.log('Built minified, fingerprinted assets with precomputed animation geometry.');

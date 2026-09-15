@@ -58,6 +58,8 @@ Render's GitHub installation currently lacks access to this repository, so pushe
 
 ## Design and content
 
+Link previews use the dedicated `public/ben-preview-v1.png` card: “Ben” in the site's serif type, with its charcoal background and faint corner diagrams. Open Graph and Twitter card metadata point to the absolute HTTPS image URL, with dimensions and alternative text, so sharing apps can discover it without JavaScript. Regenerate deliberately with `npm run social-preview` (requires Chromium); normal builds copy the committed PNG and validate its metadata references. If the artwork changes, version its filename and update both metadata URLs because sharing apps may cache previews.
+
 The default theme follows `prefers-color-scheme` directly in CSS, including live OS theme changes. The footer allows a saved manual override or returning to System.
 
 Two SVG diagrams frame the content on desktop: a network labeled “inputs → representations” and a curved surface labeled “a little room to explore.” A faint grid fades into the background, and a horizontal gradient keeps the reading column clear. Both diagrams sit partly beyond the page edges. On phones they remain small, cropped corner details with lower opacity; their captions are hidden. Small signals follow the existing lines, leaving short illuminated trails; network nodes brighten as a signal passes.
