@@ -8,6 +8,8 @@ let html = (await readFile(resolve(root, 'public/index.html'), 'utf8')).replace(
 for (const [, path] of html.matchAll(/(?:src|href|content)="(?:https:\/\/b3n\.ai)?(\/[^"#]*)"/g)) {
   await stat(resolve(root, `public${path}`));
 }
+const manifest = JSON.parse(await readFile(resolve(root, 'public/site.webmanifest'), 'utf8'));
+for (const icon of manifest.icons) await stat(resolve(root, `public${icon.src}`));
 await rm(resolve(root, 'dist'), { recursive: true, force: true });
 await mkdir(resolve(root, 'dist'), { recursive: true });
 await cp(resolve(root, 'public'), resolve(root, 'dist'), { recursive: true });

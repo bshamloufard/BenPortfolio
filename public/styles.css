@@ -33,7 +33,7 @@ h1 { font: 400 clamp(2rem, 5vw, 2.3rem)/1.2 Georgia, "Times New Roman", serif; l
 .inline-link { color: var(--strong); border-bottom: 1px solid var(--line); padding-bottom: 1px; transition: border-color 160ms; white-space: nowrap; }
 .inline-link:hover { border-color: var(--accent); }
 .inline-link img { vertical-align: -3px; border-radius: 4px; margin-right: 2px; }
-.berkeley-mark { display: inline-flex; justify-content: center; align-items: center; background: #123761; color: #edcd7a; font: bold 13px Georgia, serif; width: 17px; height: 19px; border-radius: 3px 3px 7px 7px; margin-right: 3px; }
+.berkeley-mark { display: inline-flex; justify-content: center; align-items: center; background: #123761; color: #edcd7a; font: bold 13px/1 Georgia, serif; width: 18px; height: 18px; border-radius: 4px; margin-right: 2px; vertical-align: -3px; }
 .work-section { margin-top: 39px; }
 .section-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; margin-bottom: 15px; }
 h2 { font-size: 0.875rem; font-weight: 550; color: var(--strong); margin: 0; }
