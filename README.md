@@ -60,7 +60,7 @@ Render's GitHub installation currently lacks access to this repository, so pushe
 
 Link previews use the dedicated `public/ben-preview-v1.png` card: “Ben” in the site's serif type, with its charcoal background and faint corner diagrams. Open Graph and Twitter card metadata point to the absolute HTTPS image URL, with dimensions and alternative text, so sharing apps can discover it without JavaScript. Regenerate deliberately with `npm run social-preview` (requires Chromium); normal builds copy the committed PNG and validate its metadata references. If the artwork changes, version its filename and update both metadata URLs because sharing apps may cache previews.
 
-The SVG favicon follows the system theme. A 96-pixel PNG fallback covers raster favicon consumers, and an opaque 180-pixel Apple touch icon covers saved iPhone/iPad shortcuts. The web manifest supplies 192/512-pixel icons and the short name “Ben”, with `display: browser` to retain normal browser navigation. Regenerate these committed PNGs from the SVG with `npm run site-icons` (requires Chromium); no browser is needed during deployment. The build validates manifest icon references. The inline Berkeley “B” is a custom typographic badge with the same square proportions and corner radius as neighboring logos, not an official university mark.
+The SVG favicon follows the system theme. A 96-pixel PNG fallback covers raster favicon consumers, and an opaque 180-pixel Apple touch icon covers saved iPhone/iPad shortcuts. The web manifest supplies 192/512-pixel icons and the short name “Ben”, with `display: browser` to retain normal browser navigation. Regenerate these committed PNGs from the SVG with `npm run site-icons` (requires Chromium); no browser is needed during deployment. The build validates manifest icon references. The inline Berkeley image uses the supplied university seal, resized for its small display size with its transparency preserved.
 
 The default theme follows `prefers-color-scheme` directly in CSS, including live OS theme changes. The footer allows a saved manual override or returning to System.
 
@@ -84,6 +84,6 @@ For an animation regression comparison, save an older `public/` directory and ru
 
 See [PERFORMANCE.md](PERFORMANCE.md) for the measured optimization results and tradeoffs.
 
-Content is adapted from Ben's supplied résumé. The supplied Amazon, BAIR, Valkai, Ramp, and Roblox images are included; Berkeley uses a typographic identifier. BAIR imagery is supplied project/reference material. No employer endorsement is implied.
+Content is adapted from Ben's supplied résumé. The supplied Amazon, BAIR, Berkeley, Valkai, Ramp, and Roblox images are included. BAIR imagery is supplied project/reference material. No employer endorsement is implied.
 
 Visual inspiration: [Sofia Bodnar's portfolio](https://sofiabodnar.com/). Built as an original implementation.
